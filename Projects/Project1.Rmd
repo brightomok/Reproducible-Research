@@ -1,0 +1,55 @@
+---
+title: "Ryan Tillis - Graphic Medical Coverages - Reproducible Research - Coursera"
+author: <a href="http://www.ryantillis.com"> Ryan Tillis </a>
+date: "10/27/2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exploratory Graphing - Medical Coverage by State and Illnesses
+
+You will be looking at a subset of a United States medical expenditures dataset with information on costs for different medical conditions and in different areas of the country.
+
+You should do the following:
+
+Make a plot that answers the question: what is the relationship between mean covered charges (Average.Covered.Charges) and mean total payments (Average.Total.Payments) in New York?
+Make a plot (possibly multi-panel) that answers the question: how does the relationship between mean covered charges (Average.Covered.Charges) and mean total payments (Average.Total.Payments) vary by medical condition (DRG.Definition) and the state in which care was received (Provider.State)?
+
+```{r downloaddim}
+download <- download.file("https://d18ky98rnyall9.cloudfront.net/_e143dff6e844c7af8da2a4e71d7c054d_payments.csv?Expires=1477785600&Signature=Bt~7TUHJAZWMzAjg6cMaQDvRWHhKjOEYWo-tNlLFOtwxOeO2g~mitUM1R9SGe371rHFU3HbgIFJFps772qmMaB2MoPEh9-fBub~Y59KtZd4h40~kkGXeltDL5FzEKprFQmtk~cNvll3cRd-0M-KR-sebeijKeU2K0IuHQ4PLts0_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A",destfile = "temp")
+
+data <- read.csv("temp")
+
+unlink("temp")
+head(data)
+library(ggplot2)
+```
+
+```{r process, cache = TRUE}
+g <- ggplot(data, aes(x=Average.Total.Payments,y=Average.Covered.Charges))+geom_point()+stat_smooth()
+g
+```
+
+```{r plot1}
+g2 <- ggplot(data, aes(x=Average.Total.Payments,y=Average.Covered.Charges, group=Provider.State))+geom_point()+stat_smooth(aes(colour=Provider.State,fill=Provider.State))
+g2
+```
+
+```{r plot2}
+g3 <- ggplot(data, aes(x=Average.Total.Payments,y=Average.Covered.Charges, group=DRG.Definition))+geom_point()+stat_smooth(aes(colour=DRG.Definition,fill=DRG.Definition))
+g3+theme(legend.position="bottom")
+```
+
+```{r plot3}
+g4 <- ggplot(data, aes(x=Average.Total.Payments,y=Average.Covered.Charges, group=DRG.Definition))+geom_point()+stat_smooth(aes(colour=DRG.Definition,fill=DRG.Definition))+facet_grid(. ~ Provider.State)
+g4+theme(legend.position="bottom") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+<hr>
+
+See more at <a href="http://www.ryantillis.com"> my website. </a>
+
+<hr>
