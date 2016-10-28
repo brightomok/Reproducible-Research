@@ -1,6 +1,8 @@
 ---
-title: 'Reproducible Research: Project 1'
-output: html_document
+title: "Ryan Tillis - Reproducible Research: Project 1 - Reproducible Research - Coursera"
+author: <a href="http://www.ryantillis.com"> Ryan Tillis </a>
+date: "10/30/2016"
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
